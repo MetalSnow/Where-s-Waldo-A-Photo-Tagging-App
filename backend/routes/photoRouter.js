@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { getAllPhotos, getPhoto } = require('../controllers/photoController');
 
 const photoRouter = new Router();
 
