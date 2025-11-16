@@ -11,14 +11,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(express.static('public'));
-
-app.get('/', (req, res) => {
+~app.get('/', (req, res) => {
   res.json({ message: "Welcome to the game's server" });
 });
 
 app.use('/photos', photoRouter);
 app.use('/users', userRouter);
-app.use('/characters', charRouter);
+app.use('/photos', charRouter);
 
 app.use(errorMiddleware);
 
