@@ -8,7 +8,6 @@ const getAllCharacters = asyncHandler(async (req, res) => {
       photoId: photoId,
     },
   });
-  console.log(characters);
   res.json({ characters: characters });
 });
 
@@ -38,7 +37,6 @@ const createCharacter = asyncHandler(async (req, res) => {
       photoId: photoId,
     },
   });
-  console.log(data);
 
   res.json({ message: 'Character created!', character: data });
 });

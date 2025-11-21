@@ -3,7 +3,6 @@ const prisma = require('../database/prismaClient');
 
 const getAllPhotos = asyncHandler(async (req, res) => {
   const allPhotos = await prisma.photo.findMany();
-  console.log(allPhotos);
   res.json({ photos: allPhotos });
 });
 
