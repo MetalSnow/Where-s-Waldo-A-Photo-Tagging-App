@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & div {
+    display: flex;
+    align-items: last baseline;
+    gap: 30px;
+    & img {
+      max-width: 120px;
+    }
+    & h1 {
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: black;
+      color: #c34e4e;
+      & span {
+        color: #5fc6e8;
+      }
+    }
+  }
+  & ul {
+    list-style: none;
+  }
+}
