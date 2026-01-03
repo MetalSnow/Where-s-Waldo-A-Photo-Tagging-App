@@ -41,7 +41,14 @@ const HomePage = () => {
         ) : (
           <ul>
             {scenarios.map((scenario) => {
-              return <li key={scenario.id}>{scenario.name}</li>;
+              return (
+                <li key={scenario.id}>
+                  <img
+                    src={API_BASE_URL + scenario.fileUrl}
+                    alt={scenario.name}
+                  />
+                </li>
+              );
             })}
           </ul>
         )}
