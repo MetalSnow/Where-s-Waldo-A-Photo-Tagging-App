@@ -21,9 +21,10 @@
 
 #root {
   font-family: 'WaldoFont', Avenir, Helvetica, Arial, sans-serif;
-  max-width: 1280px;
+  height: 100vh;
+  box-sizing: border-box;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 a {
@@ -37,8 +38,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
