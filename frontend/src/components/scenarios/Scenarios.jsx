@@ -6,11 +6,11 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const Scenarios = () => {
   const { data, loading, error } = useFetch(`${API_BASE_URL}/photos`);
 
-  if (error) return <p>A network error was encountered</p>;
-
   return (
     <div className={styles.container}>
-      {loading ? (
+      {error ? (
+        <p>A network error was encountered</p>
+      ) : loading ? (
         <LoaderCircle size={30} strokeWidth={2.5} className={styles.loader} />
       ) : (
         <ul>

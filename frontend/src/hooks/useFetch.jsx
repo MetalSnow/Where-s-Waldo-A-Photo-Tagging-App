@@ -19,7 +19,7 @@ const useFetch = (url) => {
       console.error(error);
       setError(error);
     }
-  }, []);
+  }, [url]);
 
   useEffect(() => {
     getData();

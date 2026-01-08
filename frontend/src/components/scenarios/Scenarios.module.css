@@ -1,9 +1,16 @@
 .container {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: start;
   padding: 2rem;
   & .loader {
-    justify-self: center;
+    margin-top: 3rem;
     animation: round infinite 2s linear;
+  }
+  & p {
+    text-align: center;
+    margin-top: 3rem;
   }
 
   & ul {
@@ -12,6 +19,7 @@
     grid-template-columns: repeat(auto-fit, minmax(270px, 0.8fr));
     column-gap: 23px;
     list-style: none;
+    row-gap: 2rem;
     & li {
       font-size: larg;
       letter-spacing: 1.3px;

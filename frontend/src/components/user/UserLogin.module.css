@@ -1,0 +1,13 @@
+.loader {
+  margin-top: 3rem;
+  animation: round infinite 2s linear;
+}
+
+@keyframes round {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(1turn);
+  }
+}

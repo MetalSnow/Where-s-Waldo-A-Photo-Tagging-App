@@ -20,6 +20,8 @@
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
   font-family: 'WaldoFont', Avenir, Helvetica, Arial, sans-serif;
   height: 100vh;
   box-sizing: border-box;
