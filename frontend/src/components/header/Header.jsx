@@ -3,6 +3,8 @@ import styles from './Header.module.css';
 import { CircleUserRound } from 'lucide-react';
 
 const Header = () => {
+  const username = localStorage.getItem('user');
+
   return (
     <header className={styles.header}>
       <div>
@@ -13,7 +15,14 @@ const Header = () => {
       </div>
       <ul>
         <li>
-          <CircleUserRound /> User
+          {' '}
+          {username ? (
+            <>
+              <CircleUserRound /> {username}
+            </>
+          ) : (
+            <button>Set Username</button>
+          )}
         </li>
       </ul>
     </header>

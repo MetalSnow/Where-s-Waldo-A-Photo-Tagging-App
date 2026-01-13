@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import Modal from '../modal/Modal';
 import styles from './UserLogin.module.css';
@@ -6,18 +7,21 @@ import styles from './UserLogin.module.css';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const UserLogin = () => {
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(() => !localStorage.getItem('user'));
   const { action, error, isLoading } = usePost(`${API_BASE_URL}/users`);
+  const navigate = useNavigate();
 
   const submitData = async (formData) => {
     const username = formData.get('username');
     console.log(username);
+    localStorage.setItem('user', username);
     try {
       await action({ username });
       setModal(false);
     } catch (error) {
       console.error(error);
     }
+    navigate(0);
   };
 
   return (
