@@ -7,7 +7,7 @@ const getAllPhotos = asyncHandler(async (req, res) => {
 });
 
 const getPhoto = asyncHandler(async (req, res) => {
-  const photoId = req.params.id;
+  const photoId = Number(req.params.id);
 
   const photo = await prisma.photo.findFirst({
     where: {

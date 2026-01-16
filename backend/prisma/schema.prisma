@@ -8,11 +8,11 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  username  String @db.VarChar(50)
-  beachScore Int? 
-  skiingScore Int? 
-  spaceScore Int?
+  id          Int    @id @default(autoincrement())
+  username    String @db.VarChar(50)
+  beachScore  Int?
+  skiingScore Int?
+  spaceScore  Int?
 }
 
 model Photo {
@@ -23,10 +23,11 @@ model Photo {
 }
 
 model Character {
-  id        Int    @id @default(autoincrement())
-  name      String @db.VarChar(50)
+  id        Int     @id @default(autoincrement())
+  name      String  @db.VarChar(50)
+  url       String? @db.VarChar(255)
   xPosition Int
   yPosition Int
   photoId   Int
-  img       Photo  @relation(fields: [photoId], references: [id])
+  img       Photo   @relation(fields: [photoId], references: [id])
 }
