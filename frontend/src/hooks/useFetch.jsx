@@ -4,6 +4,7 @@ const useFetch = (url) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const getData = useCallback(async () => {
     setError(null);
     try {
@@ -13,7 +14,7 @@ const useFetch = (url) => {
       }
 
       const resData = await response.json();
-      setData(resData.photos);
+      setData(resData);
       setLoading(false);
     } catch (error) {
       console.error(error);

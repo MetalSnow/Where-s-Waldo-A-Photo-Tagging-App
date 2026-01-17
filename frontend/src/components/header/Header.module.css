@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px rgb(229, 229, 229) solid;
+  box-shadow: rgba(223, 223, 223, 0.3);
 
   & div {
     display: flex;
