@@ -23,7 +23,6 @@
   display: flex;
   flex-direction: column;
   font-family: 'WaldoFont', Avenir, Helvetica, Arial, sans-serif;
-  height: 100vh;
   box-sizing: border-box;
   margin: 0 auto;
   padding-top: 1.5rem;
@@ -40,8 +39,8 @@ a:hover {
 
 body {
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+  /* min-width: 320px;
+  min-height: 100vh; */
 }
 
 h1 {
