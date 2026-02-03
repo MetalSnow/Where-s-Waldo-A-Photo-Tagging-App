@@ -2,12 +2,13 @@ import { useParams } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import styles from './Scenarios.module.css';
 import { LoaderCircle } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Scenario = () => {
   const params = useParams();
-  const imgRef = useRef(null);
+  const sceneImgRef = useRef(null);
+  const menuRef = useRef(null);
   const [position, setPosition] = useState(null);
   const { data, loading, error } = useFetch(
     `${API_BASE_URL}/photos/${params.id}`,
@@ -21,17 +22,28 @@ const Scenario = () => {
   const scenario = data.photo;
 
   const handleClick = (e) => {
-    // console.log(event.clientX);
-    // console.log(event.clientY);
     const bounds = e.target.getBoundingClientRect();
 
     const x = e.clientX - bounds.left;
     const y = e.clientY - bounds.top;
-
     setPosition({ x, y });
-    console.log(x);
-    console.log(y);
   };
+
+  useEffect(() => {
+    const handleClickAway = (e) => {
+      if (
+        sceneImgRef.current &&
+        menuRef.current &&
+        !sceneImgRef.current.contains(e.target) &&
+        !menuRef.current.contains(e.target)
+      ) {
+        setPosition(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickAway);
+    return () => document.removeEventListener('mousedown', handleClickAway);
+  }, []);
 
   return (
     <>
@@ -72,7 +84,7 @@ const Scenario = () => {
           </header>
           <div className={styles.sceneDiv}>
             <img
-              ref={imgRef}
+              ref={sceneImgRef}
               onClick={handleClick}
               src={API_BASE_URL + scenario.fileUrl}
               alt={scenario.name}
@@ -81,6 +93,7 @@ const Scenario = () => {
             {position && (
               <div
                 className={styles.dropdownMenu}
+                ref={menuRef}
                 style={{
                   left: position.x + 42,
                   top: position.y + 32,
