@@ -9,7 +9,7 @@ const Scenario = () => {
   const params = useParams();
   const sceneImgRef = useRef(null);
   const menuRef = useRef(null);
-  const [position, setPosition] = useState(null);
+  const [menu, setMenu] = useState(null);
   const { data, loading, error } = useFetch(
     `${API_BASE_URL}/photos/${params.id}`,
   );
@@ -26,7 +26,22 @@ const Scenario = () => {
 
     const x = e.clientX - bounds.left;
     const y = e.clientY - bounds.top;
-    setPosition({ x, y });
+
+    const MENU_WIDTH = 147;
+    const MENU_HEIGHT = 200;
+
+    const openLeft = x + MENU_WIDTH > bounds.width;
+    const openUp = y + MENU_HEIGHT > bounds.height;
+
+    console.log('x: ', x);
+    console.log('y: ', y);
+
+    setMenu({
+      x: x,
+      y: y,
+      openLeft,
+      openUp,
+    });
   };
 
   useEffect(() => {
@@ -37,7 +52,7 @@ const Scenario = () => {
         !sceneImgRef.current.contains(e.target) &&
         !menuRef.current.contains(e.target)
       ) {
-        setPosition(null);
+        setMenu(null);
       }
     };
 
@@ -90,13 +105,19 @@ const Scenario = () => {
               alt={scenario.name}
               className={styles.sceneImg}
             />
-            {position && (
+            {menu && (
               <div
                 className={styles.dropdownMenu}
                 ref={menuRef}
                 style={{
-                  left: position.x + 42,
-                  top: position.y + 32,
+                  left: menu.x + 42,
+                  top: menu.y + 32,
+                  transform: `
+                             translate(
+                                ${menu.openLeft ? '-100%' : '0'},
+                                    ${menu.openUp ? '-100%' : '0'}
+                                 )
+                           `,
                 }}
               >
                 <ul>
