@@ -26,8 +26,8 @@ model Character {
   id        Int     @id @default(autoincrement())
   name      String  @db.VarChar(50)
   url       String? @db.VarChar(255)
-  xPosition Int
-  yPosition Int
+  xPosition Float
+  yPosition Float
   photoId   Int
   img       Photo   @relation(fields: [photoId], references: [id])
 }
