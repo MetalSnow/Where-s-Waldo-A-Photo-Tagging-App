@@ -2,7 +2,11 @@ const asyncHandler = require('express-async-handler');
 const prisma = require('../database/prismaClient');
 
 const getAllPhotos = asyncHandler(async (req, res) => {
-  const allPhotos = await prisma.photo.findMany();
+  const allPhotos = await prisma.photo.findMany({
+    orderBy: {
+      id: 'asc',
+    },
+  });
   res.json({ photos: allPhotos });
 });
 

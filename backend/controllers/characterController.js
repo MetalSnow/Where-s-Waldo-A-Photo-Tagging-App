@@ -7,6 +7,9 @@ const getAllCharacters = asyncHandler(async (req, res) => {
     where: {
       photoId: photoId,
     },
+    orderBy: {
+      id: 'asc',
+    },
   });
   res.json({ characters: characters });
 });
