@@ -10,6 +10,7 @@ const Scenario = () => {
   const sceneImgRef = useRef(null);
   const menuRef = useRef(null);
   const [menu, setMenu] = useState(null);
+  const [coord, setCoord] = useState(null);
   const { data, loading, error } = useFetch(
     `${API_BASE_URL}/photos/${params.id}`,
   );
@@ -18,31 +19,6 @@ const Scenario = () => {
     loading: charaLoading,
     error: charaError,
   } = useFetch(`${API_BASE_URL}/photos/${params.id}/characters`);
-
-  const scenario = data.photo;
-
-  const handleClick = (e) => {
-    const bounds = e.target.getBoundingClientRect();
-
-    const x = e.clientX - bounds.left;
-    const y = e.clientY - bounds.top;
-
-    const MENU_WIDTH = 147;
-    const MENU_HEIGHT = 200;
-
-    const openLeft = x + MENU_WIDTH > bounds.width;
-    const openUp = y + MENU_HEIGHT > bounds.height;
-
-    console.log('x: ', x);
-    console.log('y: ', y);
-
-    setMenu({
-      x: x,
-      y: y,
-      openLeft,
-      openUp,
-    });
-  };
 
   useEffect(() => {
     const handleClickAway = (e) => {
@@ -59,6 +35,52 @@ const Scenario = () => {
     document.addEventListener('mousedown', handleClickAway);
     return () => document.removeEventListener('mousedown', handleClickAway);
   }, []);
+
+  const scenario = data.photo;
+
+  const handleClick = (e) => {
+    const bounds = e.target.getBoundingClientRect();
+
+    const x = e.clientX - bounds.left;
+    const y = e.clientY - bounds.top;
+
+    const MENU_WIDTH = 147;
+    const MENU_HEIGHT = 200;
+
+    const openLeft = x + MENU_WIDTH > bounds.width;
+    const openUp = y + MENU_HEIGHT > bounds.height;
+
+    const coordX = (e.clientX - bounds.left) / bounds.width;
+    const coordY = (e.clientY - bounds.top) / bounds.height;
+
+    setCoord({
+      x: coordX,
+      y: coordY,
+    });
+
+    setMenu({
+      x: x,
+      y: y,
+      openLeft,
+      openUp,
+    });
+  };
+
+  const validateCharacter = (charId, e) => {
+    const chara = charaData.characters.find((char) => {
+      return char.id === charId;
+    });
+
+    const dx = coord.x - chara.xPosition;
+    const dy = coord.y - chara.yPosition;
+
+    const isValid = Math.sqrt(dx * dx + dy * dy) < 0.02;
+    console.log(isValid);
+    if (isValid) {
+      console.log(e.currentTarget.disabled);
+    }
+    setMenu(null);
+  };
 
   return (
     <>
@@ -123,13 +145,17 @@ const Scenario = () => {
                 <ul>
                   {charaData.characters.map((character) => (
                     <li key={character.id}>
-                      <a href="#">
+                      <button
+                        onClick={(e) => {
+                          validateCharacter(character.id, e);
+                        }}
+                      >
                         <img
                           src={API_BASE_URL + character.url}
                           alt={character.name}
                         />
                         <span>{character.name}</span>
-                      </a>
+                      </button>
                     </li>
                   ))}
                 </ul>

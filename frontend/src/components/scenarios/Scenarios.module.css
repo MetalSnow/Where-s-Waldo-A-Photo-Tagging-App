@@ -94,7 +94,7 @@
   }
   & .dropdownMenu {
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.815);
+    background-color: #ffffffd0;
     /* padding: 8px 0; */
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
     border-radius: 6px;
@@ -107,12 +107,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      & a {
-        border-radius: 6px;
+      & button {
+        /* border-radius: 6px; */
+        border: none;
         color: black;
         padding: 10px 25px;
         display: flex;
-        align-items: self-start;
+        align-items: center;
+        background-color: #ffffff83;
         border-bottom: 1px solid rgb(205, 205, 205);
         gap: 0.8rem;
         &:hover {
