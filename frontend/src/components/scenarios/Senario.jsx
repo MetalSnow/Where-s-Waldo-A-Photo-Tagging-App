@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import styles from './Scenarios.module.css';
-import { LoaderCircle } from 'lucide-react';
+import { CircleCheck, CircleX, LoaderCircle } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -9,8 +9,11 @@ const Scenario = () => {
   const params = useParams();
   const sceneImgRef = useRef(null);
   const menuRef = useRef(null);
+  const sceneDivRef = useRef(null);
   const [menu, setMenu] = useState(null);
   const [coord, setCoord] = useState(null);
+  const [valid, setValid] = useState(null);
+  const [marks, setMarks] = useState([]);
   const { data, loading, error } = useFetch(
     `${API_BASE_URL}/photos/${params.id}`,
   );
@@ -21,6 +24,20 @@ const Scenario = () => {
   } = useFetch(`${API_BASE_URL}/photos/${params.id}/characters`);
 
   useEffect(() => {
+    // charaData.characters.forEach((chara) => {
+    //   const imgRect = sceneImgRef.current.getBoundingClientRect();
+    //   const containerRect = sceneDivRef.current.getBoundingClientRect();
+    //   const offsetX = imgRect.left - containerRect.left;
+    //   const offsetY = imgRect.top - containerRect.top;
+
+    //   const pixelX = offsetX + chara.xPosition * imgRect.width;
+    //   const pixelY = offsetY + chara.yPosition * imgRect.height;
+    //   console.log(pixelX);
+    //   console.log(pixelY);
+    //   setMarks((prev) => {
+    //     return [...prev, { chara: { x: pixelX, y: pixelY } }];
+    //   });
+    // });
     const handleClickAway = (e) => {
       if (
         sceneImgRef.current &&
@@ -34,7 +51,7 @@ const Scenario = () => {
 
     document.addEventListener('mousedown', handleClickAway);
     return () => document.removeEventListener('mousedown', handleClickAway);
-  }, []);
+  }, [charaData.characters]);
 
   const scenario = data.photo;
 
@@ -66,7 +83,11 @@ const Scenario = () => {
     });
   };
 
-  const validateCharacter = (charId, e) => {
+  const validateCharacter = (charId) => {
+    setValid({ status: false });
+    const imgRect = sceneImgRef.current.getBoundingClientRect();
+    const containerRect = sceneDivRef.current.getBoundingClientRect();
+
     const chara = charaData.characters.find((char) => {
       return char.id === charId;
     });
@@ -75,9 +96,22 @@ const Scenario = () => {
     const dy = coord.y - chara.yPosition;
 
     const isValid = Math.sqrt(dx * dx + dy * dy) < 0.02;
-    console.log(isValid);
+
     if (isValid) {
-      console.log(e.currentTarget.disabled);
+      const offsetX = imgRect.left - containerRect.left;
+      const offsetY = imgRect.top - containerRect.top;
+
+      const pixelX = offsetX + chara.xPosition * imgRect.width;
+      const pixelY = offsetY + chara.yPosition * imgRect.height;
+      console.log(pixelX);
+      console.log(pixelY);
+
+      setMarks((prev) => [...prev, { x: pixelX, y: pixelY }]);
+
+      setValid({
+        status: true,
+        charaName: chara.name,
+      });
     }
     setMenu(null);
   };
@@ -119,7 +153,34 @@ const Scenario = () => {
               )}
             </div>
           </header>
-          <div className={styles.sceneDiv}>
+          <div className={styles.sceneDiv} ref={sceneDivRef}>
+            {marks.map((mark, index) => {
+              {
+                console.log(mark);
+              }
+              return (
+                <CircleCheck
+                  key={index}
+                  style={{
+                    position: 'absolute',
+                    left: `${mark.x}px`,
+                    top: `${mark.y}px`,
+                    transform: 'translate(-50%, -50%)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              );
+            })}
+            {valid?.status ? (
+              <p>
+                {`You found ${valid.charaName}`}
+                <CircleCheck />
+              </p>
+            ) : (
+              <p>
+                Not quite — keep looking. <CircleX />
+              </p>
+            )}
             <img
               ref={sceneImgRef}
               onClick={handleClick}
