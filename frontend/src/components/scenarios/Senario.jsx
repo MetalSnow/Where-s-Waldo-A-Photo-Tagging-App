@@ -10,6 +10,7 @@ const Scenario = () => {
   const sceneImgRef = useRef(null);
   const menuRef = useRef(null);
   const sceneDivRef = useRef(null);
+  const statusRef = useRef(null);
   const [menu, setMenu] = useState(null);
   const [coord, setCoord] = useState(null);
   const [valid, setValid] = useState(null);
@@ -24,20 +25,6 @@ const Scenario = () => {
   } = useFetch(`${API_BASE_URL}/photos/${params.id}/characters`);
 
   useEffect(() => {
-    // charaData.characters.forEach((chara) => {
-    //   const imgRect = sceneImgRef.current.getBoundingClientRect();
-    //   const containerRect = sceneDivRef.current.getBoundingClientRect();
-    //   const offsetX = imgRect.left - containerRect.left;
-    //   const offsetY = imgRect.top - containerRect.top;
-
-    //   const pixelX = offsetX + chara.xPosition * imgRect.width;
-    //   const pixelY = offsetY + chara.yPosition * imgRect.height;
-    //   console.log(pixelX);
-    //   console.log(pixelY);
-    //   setMarks((prev) => {
-    //     return [...prev, { chara: { x: pixelX, y: pixelY } }];
-    //   });
-    // });
     const handleClickAway = (e) => {
       if (
         sceneImgRef.current &&
@@ -51,7 +38,7 @@ const Scenario = () => {
 
     document.addEventListener('mousedown', handleClickAway);
     return () => document.removeEventListener('mousedown', handleClickAway);
-  }, [charaData.characters]);
+  }, []);
 
   const scenario = data.photo;
 
@@ -103,8 +90,6 @@ const Scenario = () => {
 
       const pixelX = offsetX + chara.xPosition * imgRect.width;
       const pixelY = offsetY + chara.yPosition * imgRect.height;
-      console.log(pixelX);
-      console.log(pixelY);
 
       setMarks((prev) => [...prev, { x: pixelX, y: pixelY }]);
 
@@ -114,6 +99,8 @@ const Scenario = () => {
       });
     }
     setMenu(null);
+    // statusRef.current.style.opacity = '0';
+    // statusRef.current.style.visibility = 'hidden';
   };
 
   return (
@@ -160,26 +147,30 @@ const Scenario = () => {
               }
               return (
                 <CircleCheck
+                  className={styles.circleCheck}
                   key={index}
+                  size={30}
+                  strokeWidth={5}
+                  color="#05d88a"
+                  absoluteStrokeWidth
                   style={{
-                    position: 'absolute',
                     left: `${mark.x}px`,
                     top: `${mark.y}px`,
-                    transform: 'translate(-50%, -50%)',
-                    pointerEvents: 'none',
                   }}
                 />
               );
             })}
             {valid?.status ? (
-              <p>
+              <p ref={statusRef} style={{ backgroundColor: 'green' }}>
                 {`You found ${valid.charaName}`}
                 <CircleCheck />
               </p>
             ) : (
-              <p>
-                Not quite — keep looking. <CircleX />
-              </p>
+              valid?.status == false && (
+                <p ref={statusRef} style={{ backgroundColor: 'red' }}>
+                  Not quite — keep looking. <CircleX />
+                </p>
+              )
             )}
             <img
               ref={sceneImgRef}
