@@ -3,6 +3,7 @@ import useFetch from '../../hooks/useFetch';
 import styles from './Scenarios.module.css';
 import { CircleCheck, CircleX, LoaderCircle } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import Timer from '../timer/Timer';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Scenario = () => {
@@ -71,6 +72,10 @@ const Scenario = () => {
   };
 
   const validateCharacter = (charId) => {
+    if (statusRef.current) {
+      statusRef.current.style.opacity = '1';
+      statusRef.current.style.visibility = 'visible';
+    }
     setValid({ status: false });
     const imgRect = sceneImgRef.current.getBoundingClientRect();
     const containerRect = sceneDivRef.current.getBoundingClientRect();
@@ -99,8 +104,10 @@ const Scenario = () => {
       });
     }
     setMenu(null);
-    // statusRef.current.style.opacity = '0';
-    // statusRef.current.style.visibility = 'hidden';
+    setTimeout(() => {
+      statusRef.current.style.opacity = '0';
+      statusRef.current.style.visibility = 'hidden';
+    }, 1000);
   };
 
   return (
@@ -113,9 +120,7 @@ const Scenario = () => {
         <>
           <header className={styles.sceneHeader}>
             <h1>{scenario.name} scenario</h1>
-            <p>
-              Duration: <span>0</span>
-            </p>
+            <Timer restart={setMarks} />
             <div>
               {charaError ? (
                 <p>A network error was encountered</p>
@@ -142,9 +147,6 @@ const Scenario = () => {
           </header>
           <div className={styles.sceneDiv} ref={sceneDivRef}>
             {marks.map((mark, index) => {
-              {
-                console.log(mark);
-              }
               return (
                 <CircleCheck
                   className={styles.circleCheck}
