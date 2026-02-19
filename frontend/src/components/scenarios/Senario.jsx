@@ -1,20 +1,27 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import styles from './Scenarios.module.css';
-import { CircleCheck, CircleX, LoaderCircle } from 'lucide-react';
+import {
+  ArrowLeftFromLine,
+  Check,
+  CircleCheck,
+  CircleX,
+  LoaderCircle,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Timer from '../timer/Timer';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Scenario = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const sceneImgRef = useRef(null);
   const menuRef = useRef(null);
   const sceneDivRef = useRef(null);
   const statusRef = useRef(null);
   const [menu, setMenu] = useState(null);
   const [coord, setCoord] = useState(null);
-  const [valid, setValid] = useState(null);
+  const [valid, setValid] = useState({ status: null, charaNames: [] });
   const [marks, setMarks] = useState([]);
   const { data, loading, error } = useFetch(
     `${API_BASE_URL}/photos/${params.id}`,
@@ -76,7 +83,9 @@ const Scenario = () => {
       statusRef.current.style.opacity = '1';
       statusRef.current.style.visibility = 'visible';
     }
-    setValid({ status: false });
+    setValid((prev) => {
+      return { status: false, charaNames: [...prev.charaNames] };
+    });
     const imgRect = sceneImgRef.current.getBoundingClientRect();
     const containerRect = sceneDivRef.current.getBoundingClientRect();
 
@@ -98,9 +107,11 @@ const Scenario = () => {
 
       setMarks((prev) => [...prev, { x: pixelX, y: pixelY }]);
 
-      setValid({
-        status: true,
-        charaName: chara.name,
+      setValid((prev) => {
+        return {
+          status: true,
+          charaNames: [...prev.charaNames, chara.name],
+        };
       });
     }
     setMenu(null);
@@ -119,8 +130,11 @@ const Scenario = () => {
       ) : (
         <>
           <header className={styles.sceneHeader}>
+            <button onClick={() => navigate(-1)}>
+              <ArrowLeftFromLine size={18} strokeWidth={3} /> Leave
+            </button>
             <h1>{scenario.name} scenario</h1>
-            <Timer restart={setMarks} />
+            <Timer restart={setMarks} setValid={setValid} />
             <div>
               {charaError ? (
                 <p>A network error was encountered</p>
@@ -138,7 +152,17 @@ const Scenario = () => {
                         src={API_BASE_URL + character.url}
                         alt={character.name}
                       />
-                      <span>{character.name}</span>
+                      <div>
+                        <span>{character.name}</span>
+                        {valid?.charaNames?.includes(character.name) && (
+                          <Check
+                            size={18}
+                            color="#089646"
+                            strokeWidth={2.75}
+                            absoluteStrokeWidth
+                          />
+                        )}
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -164,7 +188,7 @@ const Scenario = () => {
             })}
             {valid?.status ? (
               <p ref={statusRef} style={{ backgroundColor: 'green' }}>
-                {`You found ${valid.charaName}`}
+                {`You found ${valid.charaNames[valid.charaNames.length - 1]}`}
                 <CircleCheck />
               </p>
             ) : (

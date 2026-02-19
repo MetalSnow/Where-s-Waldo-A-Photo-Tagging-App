@@ -4,6 +4,9 @@
 
   & p {
     width: 120px;
+    & span {
+      color: red;
+    }
   }
 
   & button {

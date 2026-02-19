@@ -66,16 +66,47 @@
 }
 
 .sceneHeader {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  background-color: white;
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-bottom: 1px rgb(229, 229, 229) solid;
   box-shadow: rgba(223, 223, 223, 0.3);
+  height: 90px;
+
+  & button {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    border-radius: 5px;
+  }
+
+  & h1 {
+    font-size: 2.5em;
+  }
+
   & ul {
     list-style: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1rem;
+
+    & li {
+      display: flex;
+      flex-direction: column;
+
+      min-width: 75px;
+
+      & div {
+        display: flex;
+      }
+    }
     & img {
       width: 40px;
       height: 45px;
@@ -84,6 +115,7 @@
 }
 
 .sceneDiv {
+  margin-top: 4rem;
   position: relative;
   padding: 2rem;
 
