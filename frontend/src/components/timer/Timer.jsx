@@ -1,30 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './Times.module.css';
 
-export default function Timer({ restart, setValid }) {
-  const [count, setCount] = useState(0);
-
+export default function Timer({ intervalRef, restart, count, setCount }) {
   useEffect(() => {
-    const id = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setCount(count + 1);
     }, 1000);
     return () => {
-      clearInterval(id);
+      clearInterval(intervalRef.current);
     };
-  }, [count]);
-
-  const handleClick = () => {
-    setCount(0);
-    restart([]);
-    setValid({ status: null, charaNames: [] });
-  };
+  }, [count, setCount, intervalRef]);
 
   return (
     <div className={styles.timer}>
       <p>
         Duration: <span>{count}</span>
       </p>
-      <button onClick={handleClick}>Reset</button>
+      <button onClick={restart}>Reset</button>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Timer from '../timer/Timer';
+import UserScore from '../scoreBoard/UserScore';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Scenario = () => {
@@ -19,10 +20,12 @@ const Scenario = () => {
   const menuRef = useRef(null);
   const sceneDivRef = useRef(null);
   const statusRef = useRef(null);
+  const intervalRef = useRef(null);
   const [menu, setMenu] = useState(null);
   const [coord, setCoord] = useState(null);
   const [valid, setValid] = useState({ status: null, charaNames: [] });
   const [marks, setMarks] = useState([]);
+  const [count, setCount] = useState(0);
   const { data, loading, error } = useFetch(
     `${API_BASE_URL}/photos/${params.id}`,
   );
@@ -105,12 +108,26 @@ const Scenario = () => {
       const pixelX = offsetX + chara.xPosition * imgRect.width;
       const pixelY = offsetY + chara.yPosition * imgRect.height;
 
-      setMarks((prev) => [...prev, { x: pixelX, y: pixelY }]);
+      setMarks((prev) => {
+        const alreadyExists = prev.some(
+          (mark) => mark.x === pixelX && mark.y === pixelY,
+        );
+
+        if (alreadyExists) return prev;
+
+        return [...prev, { x: pixelX, y: pixelY }];
+      });
 
       setValid((prev) => {
+        if (!prev.charaNames.includes(chara.name)) {
+          return {
+            status: true,
+            charaNames: [...prev.charaNames, chara.name],
+          };
+        }
         return {
           status: true,
-          charaNames: [...prev.charaNames, chara.name],
+          charaNames: [...prev.charaNames],
         };
       });
     }
@@ -119,6 +136,12 @@ const Scenario = () => {
       statusRef.current.style.opacity = '0';
       statusRef.current.style.visibility = 'hidden';
     }, 1000);
+  };
+
+  const restart = () => {
+    setCount(0);
+    setMarks([]);
+    setValid({ status: null, charaNames: [] });
   };
 
   return (
@@ -130,11 +153,17 @@ const Scenario = () => {
       ) : (
         <>
           <header className={styles.sceneHeader}>
-            <button onClick={() => navigate(-1)}>
+            <button onClick={() => navigate('/')}>
               <ArrowLeftFromLine size={18} strokeWidth={3} /> Leave
             </button>
             <h1>{scenario.name} scenario</h1>
-            <Timer restart={setMarks} setValid={setValid} />
+            <Timer
+              intervalRef={intervalRef}
+              restart={restart}
+              setValid={setValid}
+              count={count}
+              setCount={setCount}
+            />
             <div>
               {charaError ? (
                 <p>A network error was encountered</p>
@@ -170,6 +199,12 @@ const Scenario = () => {
             </div>
           </header>
           <div className={styles.sceneDiv} ref={sceneDivRef}>
+            <UserScore
+              count={count}
+              marks={marks}
+              intervalRef={intervalRef}
+              restart={restart}
+            />
             {marks.map((mark, index) => {
               return (
                 <CircleCheck
@@ -187,13 +222,21 @@ const Scenario = () => {
               );
             })}
             {valid?.status ? (
-              <p ref={statusRef} style={{ backgroundColor: 'green' }}>
+              <p
+                className={styles.status}
+                ref={statusRef}
+                style={{ backgroundColor: 'green' }}
+              >
                 {`You found ${valid.charaNames[valid.charaNames.length - 1]}`}
                 <CircleCheck />
               </p>
             ) : (
               valid?.status == false && (
-                <p ref={statusRef} style={{ backgroundColor: 'red' }}>
+                <p
+                  className={styles.status}
+                  ref={statusRef}
+                  style={{ backgroundColor: 'red' }}
+                >
                   Not quite — keep looking. <CircleX />
                 </p>
               )
