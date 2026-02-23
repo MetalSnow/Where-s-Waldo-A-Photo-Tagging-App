@@ -2,9 +2,8 @@ import logo from '../../assets/icons/waldo-logo.png';
 import styles from './Header.module.css';
 import { CircleUserRound } from 'lucide-react';
 
-const Header = () => {
-  const username = localStorage.getItem('user');
-
+const Header = ({ username }) => {
+  const user = JSON.parse(localStorage.getItem('user'));
   return (
     <header className={styles.header}>
       <div>
@@ -16,7 +15,11 @@ const Header = () => {
       <ul>
         <li>
           {' '}
-          {username ? (
+          {user ? (
+            <>
+              <CircleUserRound /> {user.username}
+            </>
+          ) : username ? (
             <>
               <CircleUserRound /> {username}
             </>

@@ -204,6 +204,7 @@ const Scenario = () => {
               marks={marks}
               intervalRef={intervalRef}
               restart={restart}
+              sceneName={scenario.name}
             />
             {marks.map((mark, index) => {
               return (
