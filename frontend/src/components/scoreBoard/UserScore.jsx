@@ -13,6 +13,7 @@ const UserScore = ({ count, marks, intervalRef, restart, sceneName }) => {
   const userId = user?.id;
   const { action, error, isLoading } = usePost(
     `${API_BASE_URL}/users/${userId}/score`,
+    'PATCH',
   );
   const isComplete = marks.length === 4;
   const minutes = Math.floor(count / 60);
@@ -26,7 +27,7 @@ const UserScore = ({ count, marks, intervalRef, restart, sceneName }) => {
     const post = async () => {
       try {
         const data = await action({
-          scoreName: sceneName,
+          scoreName: `${sceneName.toLowerCase()}Score`,
           score: count,
         });
         console.log(data);

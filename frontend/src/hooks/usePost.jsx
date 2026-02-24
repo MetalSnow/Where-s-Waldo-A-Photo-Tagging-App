@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const usePost = (url) => {
+const usePost = (url, method) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -10,7 +10,7 @@ const usePost = (url) => {
     setIsLoading(true);
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: method,
         headers: {
           'Content-Type': 'application/json',
         },

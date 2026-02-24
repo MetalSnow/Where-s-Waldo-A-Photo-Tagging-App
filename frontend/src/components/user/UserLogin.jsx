@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import usePost from '../../hooks/usePost';
 import Modal from '../modal/Modal';
 import styles from './UserLogin.module.css';
@@ -7,7 +7,19 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const UserLogin = ({ setUsername }) => {
   const [modal, setModal] = useState(() => !localStorage.getItem('user'));
-  const { action, error, isLoading } = usePost(`${API_BASE_URL}/users`);
+  const { action, error, isLoading } = usePost(`${API_BASE_URL}/users`, 'POST');
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const submitData = async (formData) => {
     const username = formData.get('username');
@@ -24,7 +36,11 @@ const UserLogin = ({ setUsername }) => {
 
   return (
     <>
-      <Modal openModal={modal} closeModal={() => setModal(false)}>
+      <Modal
+        openModal={modal}
+        closeModal={() => setModal(false)}
+        keyboard={false}
+      >
         <form action={submitData}>
           <h2>Waldo welcomes you!</h2>
           {error && <p>A network error was encountred!</p>}
