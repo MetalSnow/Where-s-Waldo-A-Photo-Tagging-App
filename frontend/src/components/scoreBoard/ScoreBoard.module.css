@@ -1,3 +1,77 @@
 .modal {
   display: flex;
 }
+
+.leaderboard {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.leaderboard h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #d62828;
+  text-shadow: 2px 2px 0 #ffffff;
+}
+
+/* WALDO TABLE */
+.scoreTable {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+    45deg,
+    #ffffff,
+    #ffffff 10px,
+    #f8f8f8 10px,
+    #f8f8f8 20px
+  );
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Header */
+.scoreTable thead {
+  background: repeating-linear-gradient(
+    90deg,
+    #e0494952,
+    #e0494952 20px,
+    #ffffff 20px,
+    #ffffff 40px
+  );
+  color: #000001;
+}
+
+.scoreTable th {
+  padding: 14px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Body */
+.scoreTable td {
+  padding: 12px 14px;
+  border-bottom: 2px dashed #e63946;
+  font-weight: 500;
+}
+
+.scoreTable tbody tr:hover {
+  background-color: #ffe5e5;
+  transform: scale(1.01);
+  transition: 0.2s ease;
+}
+
+/* Highlight 1st place */
+.scoreTable tbody tr:first-child {
+  background-color: #ffd166;
+  font-weight: bold;
+  color: #1d3557;
+}
+
+/* Remove last border */
+.scoreTable tbody tr:last-child td {
+  border-bottom: none;
+}
