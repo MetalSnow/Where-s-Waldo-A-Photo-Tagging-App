@@ -1,14 +1,13 @@
 .header {
+  position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-bottom: 1px rgb(229, 229, 229) solid;
   box-shadow: rgba(223, 223, 223, 0.3);
 
   & div {
-    display: flex;
-    align-items: last baseline;
-    gap: 30px;
     & img {
       max-width: 120px;
     }
@@ -20,8 +19,40 @@
         color: #5fc6e8;
       }
     }
+
+    & p {
+      position: absolute;
+      top: 9%;
+      right: 9%;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
   }
   & ul {
     list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    & li {
+      border: #5fc6e8 1px solid;
+      background-color: #c34e4e;
+      color: white;
+      border-radius: 5px;
+      gap: 3px;
+      & :hover {
+        background-color: #5fc6e8;
+      }
+    }
+
+    & a {
+      padding: 4px 6px;
+      display: flex;
+      align-items: center;
+      color: white;
+      & :hover {
+        background-color: #5fc6e8;
+      }
+    }
   }
 }

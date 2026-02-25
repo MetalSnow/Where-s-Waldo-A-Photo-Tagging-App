@@ -2,6 +2,18 @@
   display: flex;
 }
 
+.scoreBoard {
+  display: flex;
+  flex-direction: column;
+}
+
+.loader {
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 3rem;
+  animation: round infinite 2s linear;
+}
+
 .leaderboard {
   margin-bottom: 50px;
   text-align: center;
@@ -74,4 +86,13 @@
 /* Remove last border */
 .scoreTable tbody tr:last-child td {
   border-bottom: none;
+}
+
+@keyframes round {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(1turn);
+  }
 }

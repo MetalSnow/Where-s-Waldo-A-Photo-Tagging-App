@@ -11,7 +11,7 @@ const ScoreBoard = () => {
   return (
     <>
       <Header />
-      <div className={styles.ScoreBoard}>
+      <div className={styles.scoreBoard}>
         {error ? (
           <p>A network error was encountered</p>
         ) : loading ? (
