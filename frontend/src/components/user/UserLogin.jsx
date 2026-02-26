@@ -50,6 +50,7 @@ const UserLogin = ({ setUsername }) => {
             name="username"
             type="text"
             minLength="3"
+            placeholder="Username"
             required
           />
           {isLoading ? (

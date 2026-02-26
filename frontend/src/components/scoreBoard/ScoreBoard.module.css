@@ -27,10 +27,21 @@
 }
 
 /* WALDO TABLE */
+
+.tableWrapper {
+  margin: 0 auto;
+  max-width: 600px;
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 16px;
+  scrollbar-color: #ffffff #e04949ab;
+}
+
 .scoreTable {
+  justify-self: center;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
+
   border-collapse: collapse;
   border-radius: 12px;
   overflow: hidden;

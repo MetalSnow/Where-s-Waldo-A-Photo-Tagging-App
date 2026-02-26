@@ -21,113 +21,139 @@ const ScoreBoard = () => {
           <>
             <div className={styles.leaderboard}>
               <h3>Beach Scene</h3>
-              <table className={styles.scoreTable}>
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Scene Score</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.users
-                    .sort((a, b) => a.beachScore - b.beachScore)
-                    .map((user) => (
-                      <tr
-                        key={user.id}
-                        style={{
-                          color: user.username == currentUser && '#3f85d5',
-                        }}
-                      >
-                        <td>
-                          {' '}
-                          <div>
-                            {user.username == currentUser && (
-                              <ArrowBigRight size={16} strokeWidth={3} />
-                            )}
-                            {user.username}
-                          </div>
-                        </td>
-                        <td>
-                          {Math.floor(user.beachScore / 60)} mins{' '}
-                          {user.beachScore % 60} secs
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+              <div className={styles.tableWrapper}>
+                <table className={styles.scoreTable}>
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Scene Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.users
+                      .sort((a, b) => {
+                        const aScore = a.beachScore ?? Infinity;
+                        const bScore = b.beachScore ?? Infinity;
+
+                        return aScore - bScore;
+                      })
+                      .map((user) => (
+                        <tr
+                          key={user.id}
+                          style={{
+                            color: user.username == currentUser && '#3f85d5',
+                          }}
+                        >
+                          <td>
+                            {' '}
+                            <div>
+                              {user.username == currentUser && (
+                                <ArrowBigRight size={16} strokeWidth={3} />
+                              )}
+                              {user.username}
+                            </div>
+                          </td>
+                          <td>
+                            {user.beachScore
+                              ? `${Math.floor(user.beachScore / 60)} mins
+                          ${user.beachScore % 60} secs`
+                              : '---'}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
             <div className={styles.leaderboard}>
               <h3>Skiing Scene</h3>
-              <table className={styles.scoreTable}>
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Scene Score</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.users
-                    .sort((a, b) => a.skiingScore - b.skiingScore)
-                    .map((user) => (
-                      <tr
-                        key={user.id}
-                        style={{
-                          color: user.username == currentUser && '#3f85d5',
-                        }}
-                      >
-                        <td>
-                          <div>
-                            {user.username == currentUser && (
-                              <ArrowBigRight size={16} strokeWidth={3} />
-                            )}
-                            {user.username}
-                          </div>
-                        </td>
-                        <td>
-                          {Math.floor(user.skiingScore / 60)} mins{' '}
-                          {user.skiingScore % 60} secs
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+              <div className={styles.tableWrapper}>
+                <table className={styles.scoreTable}>
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Scene Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.users
+                      .sort((a, b) => {
+                        const aScore = a.skiingScore ?? Infinity;
+                        const bScore = b.skiingScore ?? Infinity;
+
+                        return aScore - bScore;
+                      })
+                      .map((user) => (
+                        <tr
+                          key={user.id}
+                          style={{
+                            color: user.username == currentUser && '#3f85d5',
+                          }}
+                        >
+                          <td>
+                            <div>
+                              {user.username == currentUser && (
+                                <ArrowBigRight size={16} strokeWidth={3} />
+                              )}
+                              {user.username}
+                            </div>
+                          </td>
+                          <td>
+                            {user.skiingScore
+                              ? `${Math.floor(user.skiingScore / 60)} mins
+                          ${user.skiingScore % 60} secs`
+                              : '---'}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
             <div className={styles.leaderboard}>
               <h3>Space Scene</h3>
-              <table className={styles.scoreTable}>
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Scene Score</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.users
-                    .sort((a, b) => a.spaceScore - b.spaceScore)
-                    .map((user) => (
-                      <tr
-                        key={user.id}
-                        style={{
-                          color: user.username == currentUser && '#3f85d5',
-                        }}
-                      >
-                        <td>
-                          {' '}
-                          <div>
-                            {user.username == currentUser && (
-                              <ArrowBigRight size={16} strokeWidth={3} />
-                            )}
-                            {user.username}
-                          </div>
-                        </td>
-                        <td>
-                          {Math.floor(user.spaceScore / 60)} mins{' '}
-                          {user.spaceScore % 60} secs
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+              <div className={styles.tableWrapper}>
+                <table className={styles.scoreTable}>
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Scene Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.users
+                      .sort((a, b) => {
+                        const aScore = a.spaceScore ?? Infinity;
+                        const bScore = b.spaceScore ?? Infinity;
+                        return aScore - bScore;
+                      })
+                      .map((user) => (
+                        <tr
+                          key={user.id}
+                          style={{
+                            color: user.username == currentUser && '#3f85d5',
+                          }}
+                        >
+                          <td>
+                            {' '}
+                            <div>
+                              {user.username == currentUser && (
+                                <ArrowBigRight size={16} strokeWidth={3} />
+                              )}
+                              {user.username}
+                            </div>
+                          </td>
+                          <td>
+                            {user.spaceScore
+                              ? `${Math.floor(user.spaceScore / 60)} mins
+                          ${user.spaceScore % 60} secs`
+                              : '---'}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </>
         )}

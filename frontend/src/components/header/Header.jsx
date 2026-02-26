@@ -23,7 +23,13 @@ const Header = ({ username }) => {
             <img src={logo} alt="waldo-logo" />
             <span>WHERE'S</span> WALDO
           </h1>
-          <p>
+
+          <button
+            className={styles.editBtn}
+            onClick={() => {
+              setModal(true);
+            }}
+          >
             {' '}
             {user ? (
               <>
@@ -36,14 +42,8 @@ const Header = ({ username }) => {
             ) : (
               <button>Set Username</button>
             )}
-            <button
-              onClick={() => {
-                setModal(true);
-              }}
-            >
-              <SquarePen strokeWidth={3} />
-            </button>
-          </p>
+            <SquarePen strokeWidth={3} color="#2d80c4" size={16} />
+          </button>
         </div>
         <ul>
           <li>

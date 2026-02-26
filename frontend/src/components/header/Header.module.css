@@ -20,13 +20,22 @@
       }
     }
 
-    & p {
+    & .editBtn {
+      color: black;
       position: absolute;
       top: 9%;
       right: 9%;
       display: flex;
       align-items: center;
       gap: 4px;
+      padding: 0;
+      background-color: transparent;
+      outline: none;
+      border: none;
+      &:hover {
+        text-decoration: underline;
+        color: #2d80c4;
+      }
     }
   }
   & ul {
