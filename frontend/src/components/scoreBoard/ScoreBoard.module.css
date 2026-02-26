@@ -68,6 +68,13 @@
   padding: 12px 14px;
   border-bottom: 2px dashed #e63946;
   font-weight: 500;
+
+  & div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+  }
 }
 
 .scoreTable tbody tr:hover {

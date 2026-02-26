@@ -1,4 +1,4 @@
-import { LoaderCircle } from 'lucide-react';
+import { ArrowBigRight, LoaderCircle } from 'lucide-react';
 import useFetch from '../../hooks/useFetch';
 import Header from '../header/Header';
 import styles from './ScoreBoard.module.css';
@@ -7,6 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ScoreBoard = () => {
   const { data, loading, error } = useFetch(`${API_BASE_URL}/users`);
+  const currentUser = JSON.parse(localStorage.getItem('user')).username;
 
   return (
     <>
@@ -29,11 +30,27 @@ const ScoreBoard = () => {
                 </thead>
                 <tbody>
                   {data.users
-                    .sort((a, b) => b.beachScore - a.beachScore)
+                    .sort((a, b) => a.beachScore - b.beachScore)
                     .map((user) => (
-                      <tr key={user.id}>
-                        <td>{user.username}</td>
-                        <td>{user.beachScore}</td>
+                      <tr
+                        key={user.id}
+                        style={{
+                          color: user.username == currentUser && '#3f85d5',
+                        }}
+                      >
+                        <td>
+                          {' '}
+                          <div>
+                            {user.username == currentUser && (
+                              <ArrowBigRight size={16} strokeWidth={3} />
+                            )}
+                            {user.username}
+                          </div>
+                        </td>
+                        <td>
+                          {Math.floor(user.beachScore / 60)} mins{' '}
+                          {user.beachScore % 60} secs
+                        </td>
                       </tr>
                     ))}
                 </tbody>
@@ -50,11 +67,26 @@ const ScoreBoard = () => {
                 </thead>
                 <tbody>
                   {data.users
-                    .sort((a, b) => b.skiingScore - a.skiingScore)
+                    .sort((a, b) => a.skiingScore - b.skiingScore)
                     .map((user) => (
-                      <tr key={user.id}>
-                        <td>{user.username}</td>
-                        <td>{user.skiingScore}</td>
+                      <tr
+                        key={user.id}
+                        style={{
+                          color: user.username == currentUser && '#3f85d5',
+                        }}
+                      >
+                        <td>
+                          <div>
+                            {user.username == currentUser && (
+                              <ArrowBigRight size={16} strokeWidth={3} />
+                            )}
+                            {user.username}
+                          </div>
+                        </td>
+                        <td>
+                          {Math.floor(user.skiingScore / 60)} mins{' '}
+                          {user.skiingScore % 60} secs
+                        </td>
                       </tr>
                     ))}
                 </tbody>
@@ -71,11 +103,27 @@ const ScoreBoard = () => {
                 </thead>
                 <tbody>
                   {data.users
-                    .sort((a, b) => b.spaceScore - a.spaceScore)
+                    .sort((a, b) => a.spaceScore - b.spaceScore)
                     .map((user) => (
-                      <tr key={user.id}>
-                        <td>{user.username}</td>
-                        <td>{user.spaceScore}</td>
+                      <tr
+                        key={user.id}
+                        style={{
+                          color: user.username == currentUser && '#3f85d5',
+                        }}
+                      >
+                        <td>
+                          {' '}
+                          <div>
+                            {user.username == currentUser && (
+                              <ArrowBigRight size={16} strokeWidth={3} />
+                            )}
+                            {user.username}
+                          </div>
+                        </td>
+                        <td>
+                          {Math.floor(user.spaceScore / 60)} mins{' '}
+                          {user.spaceScore % 60} secs
+                        </td>
                       </tr>
                     ))}
                 </tbody>
