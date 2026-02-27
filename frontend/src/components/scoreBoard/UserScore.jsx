@@ -1,7 +1,7 @@
 import styles from './ScoreBoard.module.css';
 import Modal from '../modal/Modal';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import { LoaderCircle } from 'lucide-react';
 
@@ -25,12 +25,12 @@ const UserScore = ({ count, marks, intervalRef, restart, sceneName }) => {
     clearInterval(intervalRef.current);
 
     const post = async () => {
+      if (!userId) return;
       try {
-        const data = await action({
+        await action({
           scoreName: `${sceneName.toLowerCase()}Score`,
           score: count,
         });
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -48,7 +48,11 @@ const UserScore = ({ count, marks, intervalRef, restart, sceneName }) => {
           Time: <span>{`${minutes} Minutes, ${remainingSeconds} Seconds`}</span>
         </p>
         {error ? (
-          <p>A network error was encountered</p>
+          <button>
+            <Link style={{ color: 'white' }} to={'/'}>
+              Set a username
+            </Link>
+          </button>
         ) : isLoading ? (
           <LoaderCircle size={30} strokeWidth={2.5} className={styles.loader} />
         ) : (

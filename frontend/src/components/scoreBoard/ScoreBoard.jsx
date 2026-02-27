@@ -7,7 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ScoreBoard = () => {
   const { data, loading, error } = useFetch(`${API_BASE_URL}/users`);
-  const currentUser = JSON.parse(localStorage.getItem('user')).username;
+  const currentUser = JSON.parse(localStorage.getItem('user'));
 
   return (
     <>
@@ -41,14 +41,19 @@ const ScoreBoard = () => {
                         <tr
                           key={user.id}
                           style={{
-                            color: user.username == currentUser && '#3f85d5',
+                            color:
+                              user.username == currentUser?.username
+                                ? '#3f85d5'
+                                : 'black',
                           }}
                         >
                           <td>
                             {' '}
                             <div>
-                              {user.username == currentUser && (
+                              {user.username == currentUser?.username ? (
                                 <ArrowBigRight size={16} strokeWidth={3} />
+                              ) : (
+                                ''
                               )}
                               {user.username}
                             </div>
@@ -87,13 +92,19 @@ const ScoreBoard = () => {
                         <tr
                           key={user.id}
                           style={{
-                            color: user.username == currentUser && '#3f85d5',
+                            color:
+                              user.username == currentUser?.username
+                                ? '#3f85d5'
+                                : 'black',
                           }}
                         >
                           <td>
+                            {' '}
                             <div>
-                              {user.username == currentUser && (
+                              {user.username == currentUser?.username ? (
                                 <ArrowBigRight size={16} strokeWidth={3} />
+                              ) : (
+                                ''
                               )}
                               {user.username}
                             </div>
@@ -131,14 +142,19 @@ const ScoreBoard = () => {
                         <tr
                           key={user.id}
                           style={{
-                            color: user.username == currentUser && '#3f85d5',
+                            color:
+                              user.username == currentUser?.username
+                                ? '#3f85d5'
+                                : 'black',
                           }}
                         >
                           <td>
                             {' '}
                             <div>
-                              {user.username == currentUser && (
+                              {user.username == currentUser?.username ? (
                                 <ArrowBigRight size={16} strokeWidth={3} />
+                              ) : (
+                                ''
                               )}
                               {user.username}
                             </div>

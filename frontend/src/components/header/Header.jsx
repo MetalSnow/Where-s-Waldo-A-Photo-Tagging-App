@@ -16,7 +16,7 @@ const Header = ({ username }) => {
 
   return (
     <>
-      <UpdateUser modal={modal} setModal={setModal} />
+      {user?.id && <UpdateUser modal={modal} setModal={setModal} />}
       <header className={styles.header}>
         <div>
           <h1>
@@ -40,7 +40,7 @@ const Header = ({ username }) => {
                 <CircleUserRound size={23} /> {username}
               </>
             ) : (
-              <button>Set Username</button>
+              <Link to={'/'}>Set Username</Link>
             )}
             <SquarePen strokeWidth={3} color="#2d80c4" size={16} />
           </button>
