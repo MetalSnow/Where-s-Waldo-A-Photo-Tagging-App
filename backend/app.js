@@ -8,16 +8,14 @@ require('dotenv').config();
 
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://where-s-waldo-a-photo-tagging-app-liart.vercel.app',
-];
+const cors = require('cors');
 
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
+
+      if (origin.includes('vercel.app') || origin === 'http://localhost:5173') {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
