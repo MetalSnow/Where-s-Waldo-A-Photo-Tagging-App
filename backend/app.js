@@ -13,7 +13,7 @@ app.use(
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
 
-      if (origin.includes('vercel.app') || origin === 'http://localhost:5173') {
+      if (origin.includes('vercel.app') || origin === 'http://127.0.0.1:5173') {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
